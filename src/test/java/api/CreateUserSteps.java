@@ -19,6 +19,16 @@ public class CreateUserSteps {
                 .post(Endpoints.USER_REGISTER);
     }
 
+    @Step("Удаление пользователя по токену")
+    public Response delete(String token) {
+        return given()
+                .filter(new io.qameta.allure.restassured.AllureRestAssured())
+                .header("Content-Type", "application/json")
+                .header("Authorization", token)
+                .baseUri(Endpoints.BASE_URL)
+                .when()
+                .delete(Endpoints.DELETE_USER);
+    }
 
     @Step("Отправка POST-запроса на авторизацию пользователя (логин)")
     public Response login(LoginUsers loginUsers) {
