@@ -89,7 +89,20 @@ public class CreateUsersTest extends BaseTest {
                 .body("success", equalTo(false))
                 .body("message", equalTo("Email, password and name are required fields"));
     }
+    @Test
+    @DisplayName("Ошибка при создании пользователя без email")
+    @Description("Ошибка 403 при попытке зарегистрировать пользователя с пустым полем email")
+    public void cannotCreateUserWithoutEmail() {
+        CreateUsers userWithoutEmail = RandomUsers.generate();
+        userWithoutEmail.setEmail(null);
 
+        Response response = userSteps.register(userWithoutEmail);
+
+        response.then()
+                .statusCode(SC_FORBIDDEN)
+                .body("success", equalTo(false))
+                .body("message", equalTo("Email, password and name are required fields"));
+    }
     @Test
     @DisplayName("Ошибка при создании пользователя без пароля")
     @Description("Ошибка 403 при попытке зарегистрировать пользователя с пустым полем password")
